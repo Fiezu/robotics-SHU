@@ -196,7 +196,7 @@ bool exploreMaze() {
     // botReverse();
     // delay(DELAY_SPEED);
     botTurnRight();
-    delay(1500); // !!! DONT EVER CHANGE THIS !!!! original: 1950
+    delay(1500);
 
     // deliveryMade = true;
     // return;
