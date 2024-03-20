@@ -1,6 +1,8 @@
 # Robotics-SHU (Assessment)
 This project presents a robotic exploration within a maze, designed to simulate a network of streets, with the objective of identifying multiple designated points, referred to as "houses", without the necessity to return to its initial starting position. The robot operates on a white surface, with the maze boundaries depicted by black lines, demonstrating its capability to navigate through complex paths.
 
+In the code, you'll find sections within the `objectSeen` condition that are commented out, particularly where `deliveryMade` should be set to true. This was intentionally omitted, meaning the robot won't trace its path back to the start. This decision was made to focus on exploring and finding "houses" without returning to base.
+
 ## Zumo 32U4 Setup Guide
 ### Installation
 
