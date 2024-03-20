@@ -20,3 +20,9 @@ Refer to [Arduino website](https://www.arduino.cc/en/Guide/Libraries) for more.
 ### Starting The Exploration
 1. Switch ON the robot.
 2. Press the button A to start navigating through the maze.
+
+## References
+1. Arduino. (n.d.). Reference. Retrieved from https://www.arduino.cc/reference/en/
+2. Pololu. (n.d.). Zumo 32U4 Arduino library. Retrieved from https://github.com/pololu/zumo-32u4-arduino-library
+3. Craven, P. V. (n.d.). Zumo 32U4 examples. Retrieved from https://github.com/pvcraven/zumo_32u4_examples
+4. Pololu. (n.d.). Zumo 32U4 Robot User's Guide. Retrieved from https://www.pololu.com/docs/0J63
