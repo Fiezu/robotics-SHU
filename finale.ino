@@ -121,7 +121,7 @@ void retraceSteps() {
       readLineSensors();
     }
   }
-  motors.setSpeeds(0, 0);  // Stop at the end
+  motors.setSpeeds(0, 0);  // Motor stops
   buzzer.playFromProgramSpace(PSTR("!>>a32"));
   delay(500);
 
@@ -179,16 +179,6 @@ bool exploreMaze() {
   uint16_t frontRightSensorValue = proxSensors.countsFrontWithRightLeds();
   uint16_t rightSensorValue = proxSensors.countsRightWithRightLeds();
 
-  // lcd.clear();
-  // lcd.gotoXY(0, 1);
-  // lcd.print(leftSensorValue);
-  // lcd.print(" ");
-  // lcd.print(frontLeftSensorValue);
-  // lcd.print(" ");
-  // lcd.print(frontRightSensorValue);
-  // lcd.print(" ");
-  // lcd.print(rightSensorValue);
-
   // Determine if an object is visible or not.
   bool objectSeen = (leftSensorValue >= PROX_SENSOR_LIMIT && frontLeftSensorValue >= PROX_SENSOR_LIMIT) || (rightSensorValue >= PROX_SENSOR_LIMIT && frontRightSensorValue >= PROX_SENSOR_LIMIT);
 
@@ -206,7 +196,7 @@ bool exploreMaze() {
     // botReverse();
     // delay(DELAY_SPEED);
     botTurnRight();
-    delay(1950); // !!! DONT EVER CHANGE THIS !!!!
+    delay(1500); // !!! DONT EVER CHANGE THIS !!!! original: 1950
 
     // deliveryMade = true;
     // return;
@@ -227,25 +217,15 @@ void readLineSensors() {
   uint16_t valueRightSensor = lineSensorValues[RIGHT_SENSOR];
 
   // If the pattern is detected, execute a 180-degree turn
-  if (checkPattern() || valueMiddleSensor >= 600) {
+  if (checkPattern()) {
     endMovement();
     execute180Turn(turnHistory[3]);               // Use the last turn direction for the 120-degree turn
     memset(turnHistory, 0, sizeof(turnHistory));  // Reset turn history after executing the turn
-  } 
-  // else if (valueMiddleSensor >= 600) {
-  //   endMovement();
-  //   execute120Turn(turnHistory[3]);               // Use the last turn direction for the 120-degree turn
-  //   memset(turnHistory, 0, sizeof(turnHistory));  // Reset turn history after executing the turn
-  //   // Code to turn right
-  //   // startMovement(2);
-  //   // botReverse();
-  //   // delay(DELAY_SPEED_REVERSE);
-  //   // endMovement();
-  //   // startMovement(3);
-  //   // botTurnRight();
-  //   // delay(1000);
-  // } 
-  else if (valueLeftSensor >= LIMIT_THRESHOLD && valueLeftMiddleSensor >= LIMIT_THRESHOLD) {
+  } else if (valueMiddleSensor >= 600) {
+    endMovement();
+    execute90Turn(turnHistory[3]);               // Use the last turn direction for the 90-degree turn
+    memset(turnHistory, 0, sizeof(turnHistory));  // Reset turn history after executing the turn
+  } else if (valueLeftSensor >= LIMIT_THRESHOLD && valueLeftMiddleSensor >= LIMIT_THRESHOLD) {
     endMovement();
     // Code to turn right
     startMovement(2);
@@ -283,5 +263,21 @@ void execute180Turn(int lastTurnDirection) {
     startMovement(3);
     botTurnRight();
   }
-  delay(1500);  // Adjust this delay to achieve approximately 120 degrees turn
+  delay(1500);
+}
+
+// Execute a 90-degree turn based on the last turn direction
+void execute90Turn(int lastTurnDirection) {
+  startMovement(2);
+  botReverse();
+  delay(DELAY_SPEED_REVERSE);
+  endMovement();
+  if (lastTurnDirection == 1) {  // Last turn was right
+    startMovement(3);
+    botTurnLeft();
+  } else {  // Last turn was left
+    startMovement(3);
+    botTurnRight();
+  }
+  delay(750);
 }
